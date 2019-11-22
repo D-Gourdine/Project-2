@@ -36,5 +36,5 @@ one = Label(
 )
 one.pack()
 
-# asd
+# as
 window.mainloop()
