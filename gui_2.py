@@ -12,14 +12,13 @@ from matplotlib.figure import Figure
 LARGE_FONT = ("Stencil", 24)
 
 
-def callbackFunc(event):
-    print("selected")
+dataSet = []
 
 
 class math(tk.Tk):
-    def __init__(self, *args, **kwargs):
-        tk.Tk.__init__(self, *args, **kwargs)
-        tk.Tk.wm_title(self, "Some random title")
+    def __init__(self):
+        tk.Tk.__init__(self)
+        tk.Tk.wm_title(self, "Data Analyzer")
         container = tk.Frame(self)
         container.pack(side="top", fill="both", expand=True)
         container.grid_rowconfigure(0, weight=1)  # sets size and priority(weight)
@@ -27,13 +26,17 @@ class math(tk.Tk):
 
         self.frames = {}
 
-        for F in (StartPage, PageOne, PageTwo):
+        for F in (
+            StartPage,
+            PageOne,
+            PageTwo,
+        ):  # https://stackoverflow.com/questions/7546050/switch-between-two-frames-in-tkinter
 
             frame = F(container, self)
             self.frames[F] = frame
             frame.grid(row=0, column=0, sticky="nsew")  # streches to size of window
 
-        self.show_frame(StartPage)
+        self.show_frame(StartPage)  # Sets the initial screen/frame
 
     def show_frame(self, cont):
         frame = self.frames[cont]
@@ -44,29 +47,35 @@ class StartPage(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         label = ttk.Label(self, text="Data Analysis Helper", font=LARGE_FONT)
-        label.grid(pady=10, padx=10, row=1, column=2)
+        label.pack()
 
         options = ttk.Combobox(
             self, values=["January", "February"], width=25, justify="center"
         )
-        options.grid(row=3, column=2)
+        options.pack(anchor="c")
 
         # options.bind("something", callbackFunc)
         options.set("Please select a data set")
 
-        button1 = ttk.Button(
-            self, text="Page One", command=lambda: [controller.show_frame(PageOne)]
-        )
-        button1.grid(padx=10, pady=10)
+        f1 = tk.Frame(width=200, height=200, background="grey")
+        f1.pack(fill="both", expand=True, padx=20, pady=20)
 
-        button2 = ttk.Button(self, text="Execute", command=lambda: [print("execute")])
-        button2.grid(padx=2, pady=2, row=3, column=3)
+        button2 = ttk.Button(
+            self,
+            text="Execute",
+            command=lambda: [
+                dataSet.append(options.get()),
+                controller.show_frame(PageOne),
+                print(dataSet[0]),
+            ],
+        )
+        button2.pack(anchor="center")
 
 
 class PageOne(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
-        label = tk.Label(self, text="Page One", font=LARGE_FONT)
+        label = tk.Label(self, text=dataSet[0], font=LARGE_FONT)
         label.pack(pady=10, padx=10)
 
         button1 = ttk.Button(
