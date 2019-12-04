@@ -11,8 +11,10 @@ from matplotlib.figure import Figure
 
 LARGE_FONT = ("Stencil", 24)
 
+
 def callbackFunc(event):
     print("selected")
+
 
 class math(tk.Tk):
     def __init__(self, *args, **kwargs):
@@ -42,25 +44,23 @@ class StartPage(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         label = ttk.Label(self, text="Data Analysis Helper", font=LARGE_FONT)
-        label.grid(pady=10, padx=10)
+        label.grid(pady=10, padx=10, row=1, column=2)
 
-        options = ttk.Combobox(self, values = ["January", "February"], width = 25, justify = "center")
-        options.grid()
-        
-        #options.bind("something", callbackFunc)
+        options = ttk.Combobox(
+            self, values=["January", "February"], width=25, justify="center"
+        )
+        options.grid(row=3, column=2)
+
+        # options.bind("something", callbackFunc)
         options.set("Please select a data set")
 
         button1 = ttk.Button(
             self, text="Page One", command=lambda: [controller.show_frame(PageOne)]
         )
-        button1.grid(padx = 10, pady = 10)
+        button1.grid(padx=10, pady=10)
 
-        button2 = ttk.Button(
-            self, text="Execute", command=lambda: [print('execute')]
-        )
-        button2.grid( padx = 2, pady = 2)
-
-        
+        button2 = ttk.Button(self, text="Execute", command=lambda: [print("execute")])
+        button2.grid(padx=2, pady=2, row=3, column=3)
 
 
 class PageOne(tk.Frame):
@@ -72,11 +72,12 @@ class PageOne(tk.Frame):
         button1 = ttk.Button(
             self, text="Back", command=lambda: controller.show_frame(StartPage)
         )
-        button1.pack( side = "left", anchor = 's',pady=10, padx=10 )
+        button1.pack(side="left", anchor="s", pady=10, padx=10)
         button2 = ttk.Button(
             self, text="Next", command=lambda: controller.show_frame(PageTwo)
         )
-        button2.pack( side = "right", anchor = 's',pady=10, padx=10 )
+        button2.pack(side="right", anchor="s", pady=10, padx=10)
+
 
 class PageTwo(tk.Frame):
     def __init__(self, parent, controller):
@@ -87,11 +88,11 @@ class PageTwo(tk.Frame):
         button1 = ttk.Button(
             self, text="Home Page", command=lambda: controller.show_frame(StartPage)
         )
-        button1.pack( side = "right", anchor = 's',pady=10, padx=10 )
+        button1.pack(side="right", anchor="s", pady=10, padx=10)
         button2 = ttk.Button(
             self, text="Back", command=lambda: controller.show_frame(PageOne)
         )
-        button2.pack( side = "left", anchor = 's',pady=10, padx=10 )
+        button2.pack(side="left", anchor="s", pady=10, padx=10)
 
 
 app = math()
