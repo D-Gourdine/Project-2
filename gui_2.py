@@ -50,11 +50,9 @@ class StartPage(tk.Frame):
         label.pack()
 
         options = ttk.Combobox(
-            self, values=["January", "February"], width=25, justify="center"
-        )
+            self, values=["data1", "data2","data3"], width=25, justify="center" 
+        ) #eventually change these values to correspond to the datasets
         options.pack(anchor="c")
-
-        # options.bind("something", callbackFunc)
         options.set("Please select a data set")
 
         f1 = tk.Frame(width=200, height=200, background="grey")
@@ -68,14 +66,14 @@ class StartPage(tk.Frame):
                 controller.show_frame(PageOne),
                 print(dataSet[0]),
             ],
-        )
+        )#Can use the lambda to store the value of the dropdown box with the value selected to use later
         button2.pack(anchor="center")
 
 
 class PageOne(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
-        label = tk.Label(self, text=dataSet[0], font=LARGE_FONT)
+        label = tk.Label(self, text= "Name of Data Set", font=LARGE_FONT)
         label.pack(pady=10, padx=10)
 
         button1 = ttk.Button(
@@ -86,6 +84,13 @@ class PageOne(tk.Frame):
             self, text="Next", command=lambda: controller.show_frame(PageTwo)
         )
         button2.pack(side="right", anchor="s", pady=10, padx=10)
+        
+        text_description = "The {} data set consist of {} observations. The data has the following categories: {}".format("#filler#","#filler#","#filler#")
+        Label1 = tk.Label(self, text = text_description, bd = 25, bg = 'grey', width = 75, wraplengt = 500).pack()
+        label_space = tk.Label(self, width = 75, bg = "black", bd = 25).pack()
+        Label2 = tk.Label(self, text = text_description, bd = 25, bg = 'grey', width = 75).pack()
+        Label3 = tk.Label(self, text = text_description, bd = 25, bg = 'grey', width = 75).pack()
+
 
 
 class PageTwo(tk.Frame):
