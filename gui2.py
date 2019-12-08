@@ -57,8 +57,10 @@ class math(tk.Tk):
     def show_frame(self, cont):
         frame = self.frames[cont]
         frame.tkraise()  # raise the frame to the front (so that it is visible)
+
     def get_page(self, page_class):
         return self.frames[page_class]
+    
 
 class StartPage(tk.Frame):
     def __init__(self, parent, controller):
@@ -70,11 +72,11 @@ class StartPage(tk.Frame):
 
         
         print(type(self.label))
-        options = ttk.Combobox(
+        self.options = ttk.Combobox(
             self, values=["a", "b", "c","d"], width=25, justify="center"
         )  # eventually change these values to correspond to the datasets
-        options.pack(anchor="c")
-        options.set("Please select a data set")
+        self.options.pack(anchor="c")
+        self.options.set("Please select a data set")
 
         f1 = tk.Frame(width=200, height=200, background="grey")
         f1.pack(fill="both", expand=True, padx=20, pady=20)
@@ -83,12 +85,14 @@ class StartPage(tk.Frame):
             self,
             text="Execute",
             command=lambda: [
-                dataSet.append(options.get()),
+                dataSet.append(self.options.get()),
                 controller.show_frame(PageOne),
                 print(dataSet[0]),
             ],
         )  # Can use the lambda to store the value of the dropdown box with the value selected to use later
         button2.pack(anchor="center")
+        #PageOne_ref = self.controller.get_page(PageOne)
+        
         
 
 
@@ -132,6 +136,7 @@ class PageOne(tk.Frame):
         button2 = ttk.Button(
             self, text="Next", command=lambda: controller.show_frame(PageTwo)
         )
+        
         format_width = 80
         print(lambda: [dataSet])
         dat_var=get_data_info("a")
@@ -201,9 +206,12 @@ class PageOne(tk.Frame):
         page1 = self.controller.get_page(StartPage)
         #page1.options.set("Hello, world")
         button3 = ttk.Button(
-            self, text="Back", command=lambda: [page1.v.set("changed")])
+            self, text="Back", command=lambda: [print(page1.options.get())])
 
         button3.grid(column =2, row = 14,  padx=20, sticky="se")
+
+        
+        
     
         
 
@@ -225,7 +233,7 @@ class PageTwo(tk.Frame):
             self, text="Back", command=lambda: controller.show_frame(PageOne)
         )
         button2.pack(side="left", anchor="s", pady=10, padx=10)
-        page2 = self.controller.get_page(PageTwo)
+        #page2 = self.controller.get_page(PageTwo)
 
 
 app = math()
